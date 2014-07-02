@@ -1,0 +1,43 @@
+<p>{{ msg }}</p>
+
+{% if attacked %}
+<p>Attacked planet ({{ attacked.position }}):<br>
+Population: {{ attacked.population }}</br>
+Level: {{ attacked.level }}</p>
+{% endif %}
+
+<table>
+<tr>
+<th>Planet number</th><th>Level</th><th>Population</th><th>Upgrade?</th>
+</tr>
+{% for planet in planets %}
+<tr>
+<td>{{ planet.position }}</td>
+<td>{{ planet.level }}</td>
+<td>{{ planet.population }}</td>
+<td>
+  <form action="/game" method="post">
+  <input type="hidden" name="planet_number" value="{{ planet.position }}">
+  <input type="submit" value="Upgrade">
+  </form>
+</td>
+</tr>
+{% endfor %}
+</table>
+
+<h2>Attack another planet</h2>
+<form action="/game" method="post">
+<p>
+<label for="attack_with">Planet number to attack with:</label>
+<select id="attack_with" name="attack_with">
+{% for planet in planets %}
+<option value="{{ planet.position }}">{{ planet.position }}</option>
+{% endfor %}
+</select>
+</p>
+<p>
+<label for="attack">Planet number to attack:</label>
+<input type="text" id="attack" name="attack">
+</p>
+<input type="submit" value="Attack!">
+</form>
